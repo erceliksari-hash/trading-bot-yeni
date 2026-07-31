@@ -1,6 +1,6 @@
 streamlit
 pandas
-pandas-ta --no-deps
+pandas-ta
 ccxt
 yfinance
 openai
