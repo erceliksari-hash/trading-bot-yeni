@@ -1,0 +1,10 @@
+streamlit
+pandas
+pandas-ta
+ccxt
+yfinance
+openai
+python-dotenv
+requests
+schedule
+plotly
