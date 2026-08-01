@@ -8,3 +8,5 @@ python-dotenv
 requests
 schedule
 plotly
+matplotlib
+python-telegram-bot

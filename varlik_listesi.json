@@ -1,0 +1,18 @@
+{
+    "KRIPTO": [
+        "BTC/USDT", "ETH/USDT", "SOL/USDT", "AVAX/USDT", 
+        "XRP/USDT", "BNB/USDT", "ADA/USDT", "LINK/USDT"
+    ],
+    "BIST": [
+        "THYAO.IS", "ASELS.IS", "GARAN.IS", "EREGL.IS", 
+        "KCHOL.IS", "SASA.IS"
+    ],
+    "US_STOCKS": [
+        "AAPL", "NVDA", "TSLA", "MSFT", "GOOGL", "AMD", 
+        "QQQ", "SPY"
+    ],
+    "FOREX_EMTIA": [
+        "EURUSD=X", "GBPUSD=X", "USDJPY=X", 
+        "GC=F", "CL=F"
+    ]
+}

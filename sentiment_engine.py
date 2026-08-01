@@ -1,26 +1,36 @@
+# sentiment_engine.py - GPT-4o Tabanlı Piyasa Duygu Analiz Motoru
 import json
-from openai import OpenAI
 import os
+from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY", "YOUR_OPENAI_KEY"))
+api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=api_key) if api_key and api_key != "YOUR_OPENAI_KEY" and len(api_key) > 10 else None
 
 class SentimentEngine:
     @staticmethod
-    def duygu_analizi_yap(sembol, son_haberler_metni):
-        """
-        Piyasa haberlerini GPT-4o ile analiz eder.
-        Döndürülen Değerler: 
-        - duygu_skoru (-100: Aşırı Ayı, +100: Aşırı Boğa)
-        - karar ("LONG_ONAY", "SHORT_ONAY", "PAS")
-        """
+    def duygu_analizi_yap(sembol: str, son_haberler_metni: str) -> dict:
+        if not client:
+            return {
+                "duygu_skoru": 0,
+                "karar": "PAS",
+                "ozet_yorum": "OpenAI API anahtarı tanımlanmadığı için nötr kabul edildi."
+            }
+
+        if not son_haberler_metni or len(son_haberler_metni.strip()) < 10:
+            return {
+                "duygu_skoru": 0,
+                "karar": "PAS",
+                "ozet_yorum": "Yeterli metin verisi sağlanmadı."
+            }
+
         prompt = f"""
-        Sen kıdemli bir finansal analiz uzmanısın. Aşağıda belirtilen varlığa ait son haber ve piyasa bilgilerini değerlendir.
+        Sen kıdemli bir finansal analiz uzmanısın. Aşağıda belirtilen varlığa ait bilgileri değerlendir.
         
         Varlık: {sembol}
-        Piyasa Haberleri / Özet:
+        Piyasa Durumu / Haber Özeti:
         {son_haberler_metni}
         
         Sadece ve sadece aşağıdaki JSON formatında yanıt ver:
@@ -45,5 +55,9 @@ class SentimentEngine:
             return sonuc
             
         except Exception as e:
-            print(f"Piyasa Duygu Analiz Hatası: {e}")
-            return {"duygu_skoru": 0, "karar": "PAS", "ozet_yorum": "Analiz sırasında hata oluştu."}
+            print(f"⚠️ Piyasa Duygu Analiz Hatası [{sembol}]: {e}")
+            return {
+                "duygu_skoru": 0, 
+                "karar": "PAS", 
+                "ozet_yorum": f"Analiz hatası: {str(e)}"
+            }
