@@ -153,4 +153,5 @@ if __name__ == "__main__":
     
     bot_app = bot_uygulamasini_baslat()
     if bot_app:
-        bot_app.run_polling()
+        # Sinyal çakışmasını (uvloop add_signal_handler hatasını) önlemek için stop_signals=None eklendi
+        bot_app.run_polling(stop_signals=None)
